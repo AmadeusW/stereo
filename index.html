@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Stereoscopic VR</title>
+    <meta name="description" content="Watch stereoscopic images in your VR headset">
+    <link rel="stylesheet" href="ui/style.css">
+    <script src="lib/aframe.min.js"></script>
+    <script src="lib/aframe-stereo-component.min.js"></script>
+    <script src="lib/aframe-animation-component.min.js"></script>
+    <script src="lib/aframe-mouse-cursor-component.min.js"></script>
+    <script src="lib/aframe-listener.js"></script>
+    <script src="https://unpkg.com/vue"></script>
+  </head>
+  <body>
+    
+    <!-- HTML menu -->
+    <div class="container">
+      <section class="title" id="main-title" v-if="visible">
+        <h1><a href="index.html">VR Stereoscopy</a></h1>
+        <p>Turn your VR headset into a stereoscope.</p>
+        <p>Choose from albums scraped from the internet or taken by me.</p>
+      </section>
+
+      <section class="title" id="gallery-title" v-if="visible">
+        <h1><a href="#" onclick="showMainUI()">VR Stereoscopy</a></h1>
+        <p>
+          <b>{{galleryTitle}}</b>: {{galleryDescription}}
+        </p>
+        <p>
+          With the headset on, use the controller to see photos, or select a photo from the list.
+        </p>
+        <p>
+          Now showing in VR: <b>{{item.title}}</b>
+        </p>
+        <img class="picture" :src="item.thumbLeftUrl" />
+        <p v-if="item.originalUrl"><a :href="item.originalUrl">Source</a></p>
+      </section>
+
+      <section class="galleries" id="main-menu" v-if="visible">
+        <section class="item" v-for="item in items" :cid="item.id" onclick="onCategoryClick(event)">
+          <img class="picture" :src="item.picture" />
+          <div class="description">
+            <h3>{{item.title}}</h3>
+            <p>{{item.description}}</p>
+          </div>
+        </section>
+      </section>
+      
+      <section class="galleries" id="gallery-menu" v-if="visible">
+          <section class="item" v-for="item in items" :cid="item.id" onclick="onGalleryItemClick(event)">
+            <img class="picture" :src="item.thumbLeftUrl" />
+            <div class="description">
+              <p>{{item.title}}</p>
+            </div>
+          </section>
+        </section>
+
+      <section class="footer">Built with <a href="https://aframe.io/">A-Frame</a>. View on <a href="//github.com/amadeusw/vr-stereoscopy">GitHub</a></section>
+    </div>
+
+    <!-- VR world -->
+    <a-scene id="scene" class="hidden">
+      <a-entity vive-controls="hand:left" oculus-touch-controls="hand:left" gearvr-controls="hand:left"  daydream-controls="hand:left"  x-controller-listener="hand:left"></a-entity>
+      <a-entity vive-controls="hand:right" oculus-touch-controls="hand:right" gearvr-controls="hand:right"  daydream-controls="hand:right"  x-controller-listener="hand:right"></a-entity>
+      <a-entity id="camera" camera="userHeight: 1.6" stereocam="eye:left;" mouse-cursor>
+        <!-- Stereo picture fixed to the camera -->
+        <a-entity id="mainPane">
+          <a-plane id="leftPlane"  position="0 0 -9" width="9" height="9" src="" stereo="eye: right"></a-plane>
+          <a-plane id="rightPlane" position="0 0 -9" width="9" height="9" src="" stereo="eye: left"></a-plane>
+        </a-entity>
+      </a-entity>
+      <a-sky color="#000"></a-sky>
+      <a-light type="ambient"></a-light>
+    </a-scene>
+
+  </body>
+  <script src="connectivity.js"></script>
+  <script src="menu.js"></script>
+  <script src="imageLoader.js"></script>
+  <script src="control.js"></script>
+</html>
