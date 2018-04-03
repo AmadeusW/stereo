@@ -3,5 +3,5 @@
         { "DisplayName": "Japan", "Description": "Stereo memories from the trip", "Thumbnail": "Japan/cherry blossom", "ImagePathPrefix": "Japan/", "Feed": "kapan.json" },
         { "DisplayName": "1920s", "Description": "Classic stereograms found on Reddit", "Thumbnail": "1920s/f0StAi6", "ImagePathPrefix": "1920s/", "Feed": "1920s.json" },
         { "DisplayName": "Cascadia", "Description": "Pacific Northwest, in stereo", "Thumbnail": "Cascadia/road", "ImagePathPrefix": "Cascadia/", "Feed": "cascadia.json" }
-    ],
+    ]
 }

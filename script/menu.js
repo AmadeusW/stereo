@@ -1,11 +1,11 @@
 async function initializeMenu() {
-    var data = httpGet('images/categories.json', 'json');
+    var data = httpGet('data/_index.json', 'json');
     var categories = (await data).categories;
     return categories;
 }
 
 async function initializeCategory(feed) {
-    var data = httpGet('images/' + feed, 'json');
+    var data = httpGet('data/' + feed, 'json');
     var scenes = (await data).scenes;
     console.log("initializeCategory", scenes);
     return scenes;
@@ -13,7 +13,6 @@ async function initializeCategory(feed) {
 
 function buildMenu(categories) {
     var galleryItems = [];
-
     for (var categoryId = 0; categoryId < categories.length; categoryId++) {
         galleryItems.push({
             title: categories[categoryId].DisplayName,
