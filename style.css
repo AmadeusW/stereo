@@ -2,6 +2,9 @@ body {
     background-color: #222;
     color: #ccc;
 }
+strong {
+    color: #e60;
+}
 a,a:visited {
     color: #e60;
 }

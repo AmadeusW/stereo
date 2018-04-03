@@ -19,10 +19,11 @@ var allCategories = [];
 var imagePathPrefix = "";
 var isMenuVisible = false;
 var cdnPrefix = "https://vrcv.azureedge.net/vrcv/";
-var mainTitleVue;
-var galleryTitleVue;
-var mainMenuVue;
-var galleryMenuVue;
+//var mainTitleVue;
+//var galleryTitleVue;
+//var mainMenuVue;
+//var galleryMenuVue;
+var allItems;
 
 initialize();
 
@@ -30,12 +31,12 @@ async function initialize() {
     console.log("init");
     var categories = initializeMenu();
     allCategories = await categories;
-    buildMenu(await categories);
-    showMainUI();
+    //buildMenu(await categories);
+    //showMainUI();
     initializeAFrame();
-    //await goToCategory(0, 0); // Initial category to display
-    //scenes = await initializeCategory((await categories)[0].Subcategories[0].Feed)
-    //render();
+    await goToCategory(0, 0); // Initial category to display
+    scenes = await initializeCategory((await categories)[0].Feed)
+    render();
 }
 
 function getViewModel(scene, index) {
@@ -59,9 +60,10 @@ async function goToCategory(categoryId) {
     scenes = await initializeCategory(allCategories[categoryId].Feed);
     console.log("goToCategory:", scenes);
     imagePathPrefix = allCategories[categoryId].ImagePathPrefix;
-    galleryMenuVue.items = scenes.map(getViewModel);
-    galleryTitleVue.galleryTitle = allCategories[categoryId].DisplayName;
-    galleryTitleVue.galleryDescription = allCategories[categoryId].Description;
+    allItems = scenes.map(getViewModel);
+    //galleryMenuVue.items = scenes.map(getViewModel);
+    //galleryTitleVue.galleryTitle = allCategories[categoryId].DisplayName;
+    //galleryTitleVue.galleryDescription = allCategories[categoryId].Description;
     lastImage = scenes.length - 1;
     currentThumbR = 1;
     currentThumbL = lastImage;
@@ -82,13 +84,13 @@ function initializeAFrame() {
 }
 
 function render() {
-    var vm = galleryMenuVue.items[currentImageId];
+    var vm = allItems[currentImageId];
 
     if (loadedImageId != currentImageId)
     {
         console.log("Rendering new image:", vm.title);
         loadedImageId = currentImageId;
-        galleryTitleVue.item = vm;
+        //galleryTitlneVue.item = vm;
 
         document.getElementById("leftPlane").setAttribute("width", Math.pow(2, vm.width))
         document.getElementById("leftPlane").setAttribute("height", Math.pow(2, vm.height))
@@ -198,7 +200,7 @@ function nextImage() {
     saveImageCorrections();
     currentImageId = getNextIndex(currentImageId);
 
-    var vm = galleryMenuVue.items[currentImageId];
+    var vm = allItems[currentImageId];
     preloadImage(vm.imageLeftUrl, vm.imageRightUrl);
     // render(); is called from onTempImageLoaded, as a result of preloadImage
 }
@@ -207,19 +209,19 @@ function previousImage() {
     saveImageCorrections();
     currentImageId = getPreviousIndex(currentImageId);
 
-    var vm = galleryMenuVue.items[currentImageId];
+    var vm = allItems[currentImageId];
     preloadImage(vm.imageLeftUrl, vm.imageRightUrl);
     // render(); is called from onTempImageLoaded, as a result of preloadImage
 }
 
 function saveImageCorrections() {
-    galleryTitleVue.item.correction = eyeDelta;
+    allItems[currentImageId].correction = eyeDelta;
 }
 
 function showCorrectionData() {
     // Usage: copy this output into posts.json
     console.log(",")
-    console.log("\"correction\": " + JSON.stringify(galleryMenuVue.items[currentImageId].correction));
+    console.log("\"correction\": " + JSON.stringify(allItems[currentImageId].correction));
 }
 
 function getNextIndex(value) {
