@@ -14,18 +14,25 @@
   <body>
 
     <!-- VR world -->
-    <a-scene id="scene" class="hidden">
+    <a-scene id="scene">
       <a-entity vive-controls="hand:left" oculus-touch-controls="hand:left" gearvr-controls="hand:left"  daydream-controls="hand:left"  x-controller-listener="hand:left"></a-entity>
       <a-entity vive-controls="hand:right" oculus-touch-controls="hand:right" gearvr-controls="hand:right"  daydream-controls="hand:right"  x-controller-listener="hand:right"></a-entity>
-      <a-entity id="camera" camera="userHeight: 1.6" stereocam="eye:left;" mouse-cursor>
+      <a-entity id="camera" camera="userHeight: 1.6" stereocam="eye:left;" mouse-cursor look-controls>
         <!-- Stereo picture fixed to the camera -->
-        <a-entity id="mainPane">
-          <a-plane id="leftPlane"  position="0 0 -9" width="9" height="9" src="" stereo="eye: right"></a-plane>
-          <a-plane id="rightPlane" position="0 0 -9" width="9" height="9" src="" stereo="eye: left"></a-plane>
-        </a-entity>
+
       </a-entity>
       <a-sky color="#000"></a-sky>
       <a-light type="ambient"></a-light>
+
+      <a-box id="projectorBody" position="1 0 0" width="0.2" length="0.3" height="0.15" color="#EF2D5E"></a-box>
+      <a-cylinder id="projectorLens" position="1.1 0 0" width="0.1" height="0.05" rotation="90 0 0" color="#EF2D5E"></a-cylinder>
+      <a-box id="table" position="0.97 0 0" width="0.6" length="0.6" height="0.06" color="#333"></a-box>
+
+      <a-entity id="mainPane">
+        <a-plane id="leftPlane"  position="0 0 -9" width="9" height="9" src="" stereo="eye: right"></a-plane>
+        <a-plane id="rightPlane" position="0 0 -9" width="9" height="9" src="" stereo="eye: left"></a-plane>
+      </a-entity>
+
     </a-scene>
 
     <section class="footer"><strong>STEREO</strong>. Built with <a href="https://aframe.io/">A-Frame</a>. View on <a href="//github.com/amadeusw/stereo">GitHub</a>. Enter VR ➡</section>

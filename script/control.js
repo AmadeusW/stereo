@@ -24,8 +24,9 @@ var cdnPrefix = "https://vrcv.azureedge.net/vrcv/";
 //var mainMenuVue;
 //var galleryMenuVue;
 var allItems;
+var directDisplay = true;
 
-initialize();
+//initialize();
 
 async function initialize() {
     console.log("init");
@@ -182,6 +183,9 @@ window.addEventListener("keydown", function(e){
     if(e.keyCode === 80) { // p
         previousImage();
     }
+    if(e.keyCode === 88) { // x
+        toggleDisplayMode();
+    }
     if(e.keyCode === 27) { // esc
         // disengages VR mode. don't use.
     }
@@ -243,6 +247,19 @@ function toggleTimer() {
         timeoutId = null;
         document.getElementById("timerButton").setAttribute("color", "#311");
     }
+}
+
+function toggleDisplayMode() {
+    directDisplay = !directDisplay;
+    rebuildScene(directDisplay);
+    render();
+}
+
+function rebuildScene(directDisplay) {
+    if (directDisplay)
+        document.getElementById("camera").appendChild(document.getElementById("mainPane"))
+    else
+        document.getElementById("scene").appendChild(document.getElementById("mainPane"))
 }
 
 AFRAME.registerComponent('x-controller-listener', {
